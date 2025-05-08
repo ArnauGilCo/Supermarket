@@ -3,14 +3,14 @@
   <Class Name="Supermercat.SuperMarket">
     <Position X="7.25" Y="1.75" Width="1.5" />
     <NestedTypes>
-      <Class Name="Supermercat.SuperMarket.CheckOutLine" Collapsed="true">
+      <Class Name="Supermercat.SuperMarket.CheckOutLine">
         <TypeIdentifier>
           <NewMemberFileName>SuperMarket.cs</NewMemberFileName>
         </TypeIdentifier>
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAAAABAAAAAAAIEAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAABAABAAAAAgAAAABAIAAAAAIEAAAAAABAAAgAAAE=</HashCode>
       <FileName>SuperMarket.cs</FileName>
     </TypeIdentifier>
   </Class>
