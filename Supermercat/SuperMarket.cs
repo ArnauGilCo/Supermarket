@@ -11,7 +11,7 @@ namespace Supermercat
         private string address;
         public static int MAXLINES;
         private int activeLines;
-        //CheckOutLine[] lines = new CheckOutLine[MAXLINES];
+        CheckOutLine[] lines = new CheckOutLine[MAXLINES];
         Dictionary<string,Person> staff;
         Dictionary<string,Person> customers;
         SortedDictionary<int,Item> warehouse;
@@ -109,6 +109,16 @@ namespace Supermercat
                 linia = sr.ReadLine();
             }
             sr.Close();
+            return warehouse;
+        }
+
+        public SortedSet<Item> GetItemsByStock()
+        { 
+            SortedSet<Item> warehouse = new SortedSet<Item>();
+            foreach (Item item in this.warehouse.Values)
+            {
+                warehouse.Add(item);
+            }
             return warehouse;
         }
 

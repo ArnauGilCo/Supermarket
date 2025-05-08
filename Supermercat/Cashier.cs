@@ -19,9 +19,8 @@ namespace Supermercat
         /// <returns></returns>
         public override double GetRating()
         {
-            int daysOfService;
-            daysOfService = (DateTime.Now - _joiningDate).Days;
-            return daysOfService * (_totalInvoiced * 0.10);
+            int daysOfService = (DateTime.Now - _joiningDate).Days;
+            return daysOfService + (_totalInvoiced * 0.10);
         }
         
         /// <summary>
@@ -60,7 +59,7 @@ namespace Supermercat
         
         public override string ToString()
         {
-            return $"DNI/NIE-->{this._id} NOM-->{this._fullName} rating  --> {this.GetRating} antiguitat -->{this.YearsOfService} vendes -->{this._totalInvoiced} punts -->{this._point} {base.ToString()}";
+            return $"DNI/NIE-->{this._id} NOM-->{this._fullName} RATING --> {this.GetRating()} ANTIGUITAT -->{this.YearsOfService} VENDES-->{this._totalInvoiced} PUNTS-->{this._point} {base.ToString()}";
         }
     }
 }

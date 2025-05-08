@@ -27,7 +27,6 @@ namespace Supermercat
         /// <returns></returns>
         public override double GetRating()
         {
-
             return _totalInvoiced * 0.02;
         }
         /// <summary>
@@ -41,7 +40,7 @@ namespace Supermercat
 
         public override string ToString()
         {
-            return $"DNI/NIE-->{this._id} NOM-->{this._fullName} rating  --> {this.GetRating} vendes -->{this._totalInvoiced}  punts -->{this._point} {base.ToString()}";
+            return $"DNI/NIE-->{this._id} NOM-->{this._fullName} RATING --> {this.GetRating()} VENDES->{this._totalInvoiced}  PUNTS-->{this._point} {base.ToString()}";
         }
     }
 }
