@@ -25,10 +25,14 @@ namespace Supermercat
         /// El rating es el 2% de les compres
         /// </summary>
         /// <returns></returns>
-        public override double GetRating()
+        public override double GetRating
         {
-            return _totalInvoiced * 0.02;
+            get
+            {
+                return _totalInvoiced * 0.02;
+            }
         }
+
         /// <summary>
         /// Afegeix els punts
         /// </summary>

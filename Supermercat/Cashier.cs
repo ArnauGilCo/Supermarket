@@ -9,20 +9,23 @@ namespace Supermercat
     {
         //Atributs
         private DateTime _joiningDate;
-        
+
         //Propietats
-        
+
         /// <summary>
         /// Hem de calcular els dias que porta de contratació
         /// Per obtenir el rating fem una multiplicacio de daysOfService * (totalventes * 10%)
         /// </summary>
         /// <returns></returns>
-        public override double GetRating()
+        public override double GetRating
         {
-            int daysOfService = (DateTime.Now - _joiningDate).Days;
-            return daysOfService + (_totalInvoiced * 0.10);
+            get
+            {
+                int daysOfService = (DateTime.Now - _joiningDate).Days;
+                return daysOfService + (_totalInvoiced * 0.10);
+            }
         }
-        
+
         /// <summary>
         /// Calcula els anys de servei de Cashier fent un caclul de la data de contratació - la data actual
         /// </summary>

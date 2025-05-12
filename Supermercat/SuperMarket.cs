@@ -115,6 +115,7 @@ namespace Supermercat
         public SortedSet<Item> GetItemsByStock()
         { 
             SortedSet<Item> warehouse = new SortedSet<Item>();
+            //SortedSet<Item> warehouse = new SortedSet<Item>(this.warehouse.Value);
             foreach (Item item in this.warehouse.Values)
             {
                 warehouse.Add(item);

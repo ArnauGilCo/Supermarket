@@ -40,7 +40,7 @@ namespace Supermercat
             }
         }
 
-        public abstract double GetRating();
+        public abstract double GetRating { get; }
 
 
         // Constructors
