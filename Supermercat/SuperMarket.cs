@@ -122,13 +122,5 @@ namespace Supermercat
             }
             return warehouse;
         }
-
-        public class CheckOutLine
-        {
-            private int number;
-            private Queue<ShoppingCart> queque;
-            private Person cashier;
-            private bool active;
-        }
     }
 }

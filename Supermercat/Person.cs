@@ -110,7 +110,7 @@ namespace Supermercat
         /// <returns></returns>
         public int CompareTo(Person? other)
         {
-            return other.GetRating().CompareTo(this.GetRating());
+            return other.GetRating.CompareTo(this.GetRating);
         }
     }
 }

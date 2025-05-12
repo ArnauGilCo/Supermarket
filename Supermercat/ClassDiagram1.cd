@@ -1,16 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Supermercat.SuperMarket">
-    <Position X="7.25" Y="1.75" Width="1.5" />
-    <NestedTypes>
-      <Class Name="Supermercat.SuperMarket.CheckOutLine">
-        <TypeIdentifier>
-          <NewMemberFileName>SuperMarket.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-    </NestedTypes>
+    <Position X="10.25" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAABAABAAAAAgAAAABAIAAAAAIEAAAAAABAAAgAAAE=</HashCode>
+      <HashCode>AAAABAABAAAAAgAAAABAIAAAAAIEAAAAAABAIAgAAAE=</HashCode>
       <FileName>SuperMarket.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -60,10 +56,17 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Supermercat.ShoppingCart">
-    <Position X="6.25" Y="0.5" Width="1.5" />
+    <Position X="6.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ShoppingCart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Supermercat.CheckOutLine">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAQAAACAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>CheckOutLine.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

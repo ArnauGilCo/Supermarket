@@ -62,7 +62,7 @@ namespace Supermercat
         
         public override string ToString()
         {
-            return $"DNI/NIE-->{this._id} NOM-->{this._fullName} RATING --> {this.GetRating()} ANTIGUITAT -->{this.YearsOfService} VENDES-->{this._totalInvoiced} PUNTS-->{this._point} {base.ToString()}";
+            return $"DNI/NIE-->{this._id} NOM-->{this._fullName} RATING --> {this.GetRating} ANTIGUITAT -->{this.YearsOfService} VENDES-->{this._totalInvoiced} PUNTS-->{this._point} {base.ToString()}";
         }
     }
 }
