@@ -22,7 +22,7 @@ namespace Supermercat
         {
             get
             {
-                return _fullName;
+                return this._fullName;
             }
         }
         /// <summary>
@@ -32,11 +32,11 @@ namespace Supermercat
         {
             get
             {
-                return active;
+                return this.active;
             }
             set
             {
-                active = value;
+                this.active = value;
             }
         }
 
@@ -80,12 +80,12 @@ namespace Supermercat
         /// <param name="amount"></param>
         public void AddInvoiceAmount(double amount)
         {
-            _totalInvoiced = _totalInvoiced + amount;
+            this._totalInvoiced = _totalInvoiced + amount;
         }
 
         public virtual void AddPoints(int points)
         {
-            _point += points;
+            this._point += points;
         }
 
         /// <summary>

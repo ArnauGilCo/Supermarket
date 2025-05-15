@@ -21,8 +21,8 @@ namespace Supermercat
         {
             get
             {
-                int daysOfService = (DateTime.Now - _joiningDate).Days;
-                return daysOfService + (_totalInvoiced * 0.10);
+                int daysOfService = (DateTime.Now - this._joiningDate).Days;
+                return daysOfService + (this._totalInvoiced * 0.10);
             }
         }
 
@@ -33,7 +33,7 @@ namespace Supermercat
         {
             get
             {
-                return DateTime.Now.Year - _joiningDate.Year;
+                return DateTime.Now.Year - this._joiningDate.Year;
             }
         }
         
@@ -57,7 +57,7 @@ namespace Supermercat
         /// <param name="pointsToAdd"></param>
         public override void AddPoints(int pointsToAdd)
         {
-            _point += (YearsOfService + 1) * pointsToAdd;
+            this._point += (this.YearsOfService + 1) * pointsToAdd;
         }
         
         public override string ToString()

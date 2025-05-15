@@ -15,6 +15,7 @@ namespace Supermercat
         Dictionary<string,Person> staff;
         Dictionary<string,Person> customers;
         SortedDictionary<int,Item> warehouse;
+        Dictionary<Customer, ShoppingCart> carrosPassejant;
 
         /// <summary>
         /// Genera el supermercat i afegeix els caixers, clients i productes a les estructures de dades corresponents.
@@ -34,7 +35,7 @@ namespace Supermercat
             this.staff = LoadCashiers(fileCashiers);
             this.warehouse = LoadWarehouse(fileItems);
             MAXLINES = 5;
-            activeLines = r.Next(1,MAXLINES);
+            activeLines = r.Next(1,MAXLINES+1);
         }
 
         /// <summary>
@@ -101,9 +102,9 @@ namespace Supermercat
             while (linia != null)
             {
                 items = linia.Split(';');
-                int stock = r.Next(50, 550);
-                bool onSale = r.Next(1, 100) <= 15;
-                Item item = new Item('€', Item.nextCode, items[0], onSale, Convert.ToDouble(items[3]), (Item.Category)Convert.ToInt32(items[1]), Item.charToPackage(Convert.ToChar(items[2])), stock, r.Next(stock - 35,stock - 3));
+                int stock = r.Next(50, 551);
+                bool onSale = r.Next(1, 101) <= 15;
+                Item item = new Item('€', Item.nextCode, items[0], onSale, Convert.ToDouble(items[3]), (Item.Category)Convert.ToInt32(items[1]), Item.charToPackage(Convert.ToChar(items[2])), stock, r.Next(stock - 35,stock - 2));
                 warehouse.Add(Item.nextCode, item);
                 Item.nextCode += 1;
                 linia = sr.ReadLine();
@@ -112,15 +113,80 @@ namespace Supermercat
             return warehouse;
         }
 
+        /// <summary>
+        /// Retorna el warehouse de forma ordenada seguint el criteri d'ordenació d'items.
+        /// </summary>
+        /// <returns>Warehouse ordenat</returns>
         public SortedSet<Item> GetItemsByStock()
         { 
             SortedSet<Item> warehouse = new SortedSet<Item>();
-            //SortedSet<Item> warehouse = new SortedSet<Item>(this.warehouse.Value);
             foreach (Item item in this.warehouse.Values)
             {
                 warehouse.Add(item);
             }
             return warehouse;
         }
+
+        /// <summary>
+        /// Et dona un caixer disponible de tot l'staff i el deixa Active
+        /// </summary>
+        /// <returns>Qüalsevol caixer dels disponibles</returns>
+        public Person GetAvailableCashier()
+        {
+            bool trobat = false;
+            Random r = new Random();
+            Person availableCashier = null;
+            int i = r.Next(0, staff.Count);
+            while (!trobat)
+            {
+                KeyValuePair<string, Person> entry = staff.ElementAt(i);
+                if (entry.Value.Active = false)
+                {
+                    trobat = true;
+                    availableCashier = entry.Value;
+                    entry.Value.Active = true;  
+                }
+                else
+                {
+                    i = r.Next(0, staff.Count);
+                }
+            }
+            return availableCashier;
+        }
+
+        /// <summary>
+        /// Et dona un customer disponible de tot el llistat i el deixa Active
+        /// </summary>
+        /// <returns>Qüalsevol customer dels disponibles</returns>
+        public Person GetAvailableCustomer()
+        {
+            bool trobat = false;
+            Random r = new Random();
+            Person availableCustomer = null;
+            int i = r.Next(0, customers.Count);
+            while(!trobat)
+            {
+                KeyValuePair<string, Person> entry = customers.ElementAt(i);
+                if (entry.Value.Active = false)
+                {
+                    trobat = true;
+                    availableCustomer = entry.Value;
+                    entry.Value.Active = true;
+                }
+                else
+                { 
+                    i = r.Next(0, customers.Count);
+                }
+            }
+            return availableCustomer;
+        }
+
+        public Dictionary<string, Person> Customers { get { return this.customers; } }
+
+        public Dictionary<string, Person> Staff { get { return this.staff; } }
+
+        public SortedDictionary<int, Item> Warehouse { get { return this.warehouse; } }
+
+        public int ActiveLines { get { return this.ActiveLines; } }
     }
 }
