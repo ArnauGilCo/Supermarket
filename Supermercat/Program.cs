@@ -22,9 +22,10 @@ namespace Supermercat
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-
+            Console.Write("A");
             SuperMarket super = new SuperMarket("HIPERCAR", "C/Barna 99", "CASHIERS.TXT", "CUSTOMERS.TXT", "GROCERIES.TXT", 2);
             Dictionary<Customer, ShoppingCart> carrosPassejant = new Dictionary<Customer, ShoppingCart>();
+            Console.Write("B");
 
             ConsoleKeyInfo tecla;
             do

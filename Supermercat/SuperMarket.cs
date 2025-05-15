@@ -9,9 +9,9 @@ namespace Supermercat
     {
         private string name;
         private string address;
-        public static int MAXLINES;
         private int activeLines;
-        CheckOutLine[] lines = new CheckOutLine[MAXLINES];
+        public const int MAXLINES = 5;
+        private CheckOutLine[] lines = new CheckOutLine[MAXLINES];
         Dictionary<string,Person> staff;
         Dictionary<string,Person> customers;
         SortedDictionary<int,Item> warehouse;
@@ -34,8 +34,7 @@ namespace Supermercat
             this.customers = LoadCustomers(fileCustomers);
             this.staff = LoadCashiers(fileCashiers);
             this.warehouse = LoadWarehouse(fileItems);
-            MAXLINES = 5;
-            activeLines = r.Next(1,MAXLINES+1);
+            this.activeLines = activeLines;
             for (int i = 0; i < activeLines; i++)
             {
                 lines[i] = new CheckOutLine(GetAvailableCashier(), i+1);
@@ -144,7 +143,7 @@ namespace Supermercat
             while (!trobat)
             {
                 KeyValuePair<string, Person> entry = staff.ElementAt(i);
-                if (entry.Value.Active = false)
+                if (entry.Value.Active == false)
                 {
                     trobat = true;
                     availableCashier = entry.Value;
@@ -228,8 +227,8 @@ namespace Supermercat
         {
             bool completat = false;
             if (line >= 1 && line <= activeLines)
-            { 
-                //Afegir carro a línia
+            {
+                lines[line-1].CheckIn(theCart);
                 completat = true;
             }
             return completat;
@@ -245,7 +244,7 @@ namespace Supermercat
             bool completat = false;
             if (line >= 1 && line <= activeLines)
             {
-                //Afegir dequeque
+                lines[line - 1].CheckOut();
                 completat = true;
             }
             return completat;
@@ -259,6 +258,7 @@ namespace Supermercat
             {
                 sb.Append(line.ToString());
             }
+            return sb.ToString();
         }
     }
 }
