@@ -36,6 +36,10 @@ namespace Supermercat
             this.warehouse = LoadWarehouse(fileItems);
             MAXLINES = 5;
             activeLines = r.Next(1,MAXLINES+1);
+            for (int i = 0; i < activeLines; i++)
+            {
+                lines[i] = new CheckOutLine(GetAvailableCashier(), i+1);
+            }
         }
 
         /// <summary>
@@ -188,5 +192,73 @@ namespace Supermercat
         public SortedDictionary<int, Item> Warehouse { get { return this.warehouse; } }
 
         public int ActiveLines { get { return this.ActiveLines; } }
+
+        /// <summary>
+        /// Retorna la CheckOutLine en la posicio passada com a paràmetre. Si el número donat no és compatible  retorna null.
+        /// </summary>
+        /// <param name="lineNumber">posició de la línia a bsucar</param>
+        /// <returns>Linia en la posicio del pàrametre o bé null si el paràmetre no és correcte</returns>
+        public CheckOutLine GetCheckOutLine(int lineNumber)
+        { 
+            CheckOutLine checkOutLine = null;
+            if (lineNumber >= 1 && lineNumber <= lines.Length) { checkOutLine = lines[lineNumber - 1]; }
+            return checkOutLine;
+        }
+
+        /// <summary>
+        /// Obre la línia del número passat per paràmetre en el cas que no estigui oberta.
+        /// </summary>
+        /// <param name="line2Open">Línia a obrir</param>
+        public void OpenCheckOutLine(int line2Open)
+        {
+            if (line2Open > activeLines && line2Open <= MAXLINES) 
+            {
+                lines[line2Open-1] = new CheckOutLine(GetAvailableCashier(), line2Open);
+                activeLines++;
+            }
+        }
+
+        /// <summary>
+        /// Afegeix un carro a una línia tots dos especificats als pàrametres
+        /// </summary>
+        /// <param name="theCart">carro a afegir a línia</param>
+        /// <param name="line">linia a la qual afegir</param>
+        /// <returns>true si s'ha completat, false si no s'ha completat</returns>
+        public bool JoinTheQueque(ShoppingCart theCart, int line)
+        {
+            bool completat = false;
+            if (line >= 1 && line <= activeLines)
+            { 
+                //Afegir carro a línia
+                completat = true;
+            }
+            return completat;
+        }
+
+        /// <summary>
+        /// Fa el checkout del carro que li toqui de la línia passada com a pàrametre
+        /// </summary>
+        /// <param name="line">linia on fer el dequeque</param>
+        /// <returns>true si s'ha fet, false si no s'ha fet</returns>
+        public bool Checkout(int line)
+        {
+            bool completat = false;
+            if (line >= 1 && line <= activeLines)
+            {
+                //Afegir dequeque
+                completat = true;
+            }
+            return completat;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder(this.name);
+            sb.AppendLine(this.address);
+            foreach (CheckOutLine line in this.lines)
+            {
+                sb.Append(line.ToString());
+            }
+        }
     }
 }
