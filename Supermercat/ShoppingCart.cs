@@ -20,13 +20,13 @@ namespace Supermercat
         /// <param name="dateOfPurchase">data de obtenció</param>
         public ShoppingCart(Customer customer, DateTime dateOfPurchase)
         {
-            Dictionary<Item, double> shoppingList = new Dictionary<Item, double>();
+            this.shoppingList = new Dictionary<Item, double>();
             customer.Active = true;
             this.customer = customer;
             this.dateOfPurchase = dateOfPurchase;
         }
 
-        public Dictionary<Item, double> ShoppingList { get{ return this.ShoppingList; } }
+        public Dictionary<Item, double> ShoppingList { get{ return this.shoppingList; } }
 
         public Customer Customer { get { return this.customer; } }
 
@@ -62,10 +62,10 @@ namespace Supermercat
             int qtyItems = r.Next(1,11);
             for (int i = 1; i <= qtyItems; i++)
             {
-                Item itemAAfegir = warehouse[r.Next(0, warehouse.Count)];
-                while (ShoppingList.ContainsKey(itemAAfegir))
+                Item itemAAfegir = warehouse[r.Next(1, warehouse.Count+1)];
+                while (ShoppingList.ContainsKey(itemAAfegir) && ShoppingList != null)
                 {
-                    itemAAfegir = warehouse[r.Next(0, warehouse.Count)];
+                    itemAAfegir = warehouse[r.Next(1, warehouse.Count+1)];
                 }
                 if (itemAAfegir.PackagingType == Item.Packaging.Kg) 
                 { 
@@ -110,12 +110,14 @@ namespace Supermercat
 
         public override string ToString()
         {
+            string marcaOferta;
             StringBuilder sb = new StringBuilder("*********");
             sb.AppendLine($"INFO CARRITO DE LA COMPRA CLIENT->{this.Customer.FullName}");
             foreach (KeyValuePair<Item, double> entrada in this.ShoppingList)
             {
-                sb.AppendLine($"{entrada.Key.Description}    - CAT-->{entrada.Key.GetCategory}      - QTY-->{entrada.Value}    - UNIT PRICE-->{entrada.Key.Price}  €");
-                if (entrada.Key.OnSale) { sb.Append("(*)"); }
+                if (entrada.Key.OnSale) { marcaOferta = "(*)"; }
+                else { marcaOferta = ""; }
+                sb.AppendLine($"{entrada.Key.Description}    - CAT-->{entrada.Key.GetCategory}      - QTY-->{entrada.Value}    - UNIT PRICE-->{entrada.Key.Price}  €{marcaOferta}");
             }
             sb.AppendLine("*****FI CARRITO COMPRA*****");
             return sb.ToString();

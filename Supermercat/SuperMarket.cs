@@ -15,7 +15,6 @@ namespace Supermercat
         Dictionary<string,Person> staff;
         Dictionary<string,Person> customers;
         SortedDictionary<int,Item> warehouse;
-        Dictionary<Customer, ShoppingCart> carrosPassejant;
 
         /// <summary>
         /// Genera el supermercat i afegeix els caixers, clients i productes a les estructures de dades corresponents.
@@ -170,7 +169,7 @@ namespace Supermercat
             while(!trobat)
             {
                 KeyValuePair<string, Person> entry = customers.ElementAt(i);
-                if (entry.Value.Active = false)
+                if (entry.Value.Active == false)
                 {
                     trobat = true;
                     availableCustomer = entry.Value;
@@ -190,7 +189,9 @@ namespace Supermercat
 
         public SortedDictionary<int, Item> Warehouse { get { return this.warehouse; } }
 
-        public int ActiveLines { get { return this.ActiveLines; } }
+        public CheckOutLine[] Lines { get { return this.lines; } }
+
+        public int ActiveLines { get { return this.activeLines; } }
 
         /// <summary>
         /// Retorna la CheckOutLine en la posicio passada com a paràmetre. Si el número donat no és compatible  retorna null.
@@ -248,6 +249,13 @@ namespace Supermercat
                 completat = true;
             }
             return completat;
+        }
+
+        public void RemoveQueque(SuperMarket super, int lineToRemove)
+        {
+            Person caixer = super.lines[lineToRemove - 1].Cashier;
+            super.lines[lineToRemove].Active = false;
+            caixer.Active = false;
         }
 
         public override string ToString()

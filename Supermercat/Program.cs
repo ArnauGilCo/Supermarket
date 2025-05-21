@@ -1,4 +1,5 @@
 ﻿using Supermercat;
+using System.Runtime.CompilerServices;
 
 namespace Supermercat
 {
@@ -22,10 +23,9 @@ namespace Supermercat
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            Console.Write("A");
             SuperMarket super = new SuperMarket("HIPERCAR", "C/Barna 99", "CASHIERS.TXT", "CUSTOMERS.TXT", "GROCERIES.TXT", 2);
             Dictionary<Customer, ShoppingCart> carrosPassejant = new Dictionary<Customer, ShoppingCart>();
-            Console.Write("B");
+            
 
             ConsoleKeyInfo tecla;
             do
@@ -104,8 +104,12 @@ namespace Supermercat
         public static void DoNewShoppingCart(Dictionary<Customer, ShoppingCart> carros, SuperMarket super)
         {
             Console.Clear();
+            Customer client = (Customer)super.GetAvailableCustomer();
+            ShoppingCart carro = new ShoppingCart(client, DateTime.Now);
+            carro.AddAllRandomly(super.Warehouse);
+            carros.Add(client, carro);
+            MsgNextScreen("PREM UNA TECLA PER ANAR AL MENÚ PRINCIPAL");
 
-            MsgNextScreen("PREM UNA TECLA PER ANAR AL MENÚ PRINCIPAL");
         }
 
         //OPCIO 2 - AFEGIR UN ARTICLE ALEATORI A UN CARRO DE LA COMPRA ALEATORI DELS QUE ESTAN VOLTANT PEL SUPER
@@ -122,8 +126,22 @@ namespace Supermercat
         public static void DoAfegirUnArticleAlCarro(Dictionary<Customer, ShoppingCart> carros, SuperMarket super)
         {
             Console.Clear();
+            Random r = new Random();
+            int index = r.Next(carros.Count());
+            bool kg = false;
+            KeyValuePair<Customer, ShoppingCart> carroSeleccionat = carros.ElementAt(index);
+            Console.WriteLine(carroSeleccionat.Value);
+            index = r.Next(super.Warehouse.Count());
+            KeyValuePair<int, Item> entryWareHouse = super.Warehouse.ElementAt(index);
+            double qtyAAfegir = r.Next(1, 6);
+            if (entryWareHouse.Value.PackagingType == Item.Packaging.Kg) 
+            {
+                qtyAAfegir = 1.0 + r.NextDouble() * (5.0 - 1.0);
+            }
+            Console.WriteLine($"PRODUCTE: {entryWareHouse.Value} QÜANTIAT: {qtyAAfegir}");
+            carroSeleccionat.Value.AddOne(entryWareHouse.Value, qtyAAfegir);
+            Console.WriteLine(carroSeleccionat.Value);
             MsgNextScreen("PREM UNA TECLA PER ANAR AL MENÚ PRINCIPAL");
-
         }
         // OPCIO 3 : Un dels carros que van pululant pel super  s'encua a una cua activa
         // La selecció del carro i de la cua és aleatòria
@@ -140,7 +158,19 @@ namespace Supermercat
         public static void DoCheckIn(Dictionary<Customer, ShoppingCart> carros, SuperMarket super)
         {
             Console.Clear();
-            MsgNextScreen("PREM UNA TECLA PER ANAR AL MENÚ PRINCIPAL");
+            if (carros.Count() == 0 || super.ActiveLines == 0) MsgNextScreen("NO HI HA CAP CARRO/CUA DISPONIBLE");
+            else
+            {
+                Random r = new Random();
+                int index = r.Next(carros.Count());
+                int cua = r.Next(super.ActiveLines + 1);
+                KeyValuePair<Customer, ShoppingCart> carroSeleccionat = carros.ElementAt(index);
+                carros.Remove(carroSeleccionat.Key);
+                super.JoinTheQueque(carroSeleccionat.Value, cua);
+                Console.WriteLine($"Carro: {carroSeleccionat.Value}");
+                Console.WriteLine($"Cua: {super.GetCheckOutLine(cua)}");
+                MsgNextScreen("PREM UNA TECLA PER ANAR AL MENÚ PRINCIPAL");
+            }
         }
 
         // OPCIO 4 - CHECK OUT D'UNA CUA TRIADA PER L'USUARI
@@ -154,7 +184,10 @@ namespace Supermercat
 
         public static bool DoCheckOut(SuperMarket super)
         {
-            bool fet = true;
+            Console.Clear();
+            Console.WriteLine("Entra el número de cua:");
+            int numCua = Convert.ToInt32(Console.ReadLine());
+            bool fet = super.Checkout(numCua);
             Console.Clear();
             MsgNextScreen("PREM UNA TECLA PER ANAR AL MENÚ PRINCIPAL");
             return fet;
@@ -168,7 +201,8 @@ namespace Supermercat
         // OPCIO 5 : Obrir la següent cua disponible (si n'hi ha)
         public static bool DoOpenCua(SuperMarket super)
         {
-            bool fet = true;
+            bool fet = false;
+            super.OpenCheckOutLine(super.ActiveLines+1);
             MsgNextScreen("PREM UNA TECLA PER ANAR AL MENÚ PRINCIPAL");
             return fet;
         }
@@ -182,9 +216,13 @@ namespace Supermercat
         public static void DoInfoCues(SuperMarket super)
         {
             Console.Clear();
-
+            for (int i = 0; i < super.ActiveLines; i++)
+            {
+                Console.WriteLine(super.Lines[i]);
+                Console.WriteLine();
+                Console.ReadKey();
+            }
             MsgNextScreen("PREM UNA TECLA PER CONTINUAR");
-
         }
 
 
@@ -199,6 +237,11 @@ namespace Supermercat
         {
             Console.Clear();
             Console.WriteLine("CARROS VOLTANT PEL SUPER (PENDENTS D'ANAR A PAGAR): ");
+            foreach (KeyValuePair<Customer, ShoppingCart> carroSeleccionat in carros)
+            {
+                Console.WriteLine(carroSeleccionat.Value);
+                Console.ReadKey();
+            }
             MsgNextScreen("PREM UNA TECLA PER CONTINUAR");
 
         }
@@ -214,11 +257,14 @@ namespace Supermercat
         /// <param name="super"></param>
         public static void DoListCustomers(SuperMarket super)
         {
-
             Console.Clear();
-
+            Console.WriteLine("LLISTAT DE CLIENTS PER RATING:");
+            IEnumerable<KeyValuePair<string, Person>> clientsOrdenats = super.Customers.Where(c => c.Value.GetRating > 0).OrderByDescending(c => c.Value.GetRating);
+            foreach(KeyValuePair<string, Person> client in clientsOrdenats)
+            {
+                Console.WriteLine(client.Value);
+            }
             MsgNextScreen("PREM UNA TECLA PER CONTINUAR");
-
         }
 
         // OPCIO 9
@@ -231,8 +277,11 @@ namespace Supermercat
         {
             Console.Clear();
             Console.WriteLine(header);
-
-
+            foreach (Item item in items)
+            {
+                Console.WriteLine(item);
+                Console.WriteLine();
+            }
             MsgNextScreen("PREM UNA TECLA PER CONTINUAR");
         }
 
@@ -250,9 +299,18 @@ namespace Supermercat
         public static void DoCloseQueue(SuperMarket super)
         {
             Console.Clear();
-
-
-
+            bool trobat = false;
+            int cua = 0, i = super.ActiveLines-1;
+            while (!trobat && i >= 0)
+            {
+                if (super.Lines[i].Empty) { cua = i; trobat = true; }
+                i--;
+            }
+            if (trobat) 
+            {
+                Console.WriteLine($"DESACTIVANT:\n{super.GetCheckOutLine(cua+1)}");
+                super.RemoveQueque(super, cua); 
+            }
             MsgNextScreen("PREM UNA TECLA PER CONTINUAR");
         }
 
@@ -262,7 +320,5 @@ namespace Supermercat
             Console.WriteLine(msg);
             Console.ReadKey();
         }
-
-
     }
 }

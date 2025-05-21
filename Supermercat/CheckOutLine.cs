@@ -25,6 +25,28 @@ namespace Supermercat
             this.queue = new Queue<ShoppingCart>();
             this.active = true;
         }
+
+        /// <summary>
+        /// Retorna true en cas de que la cua tingui 0 carros
+        /// </summary>
+        public bool Empty 
+        {
+            get 
+            {
+                bool empty = false;
+                if (this.queue.Count == 0) empty = true;
+                return empty;
+            } 
+        }
+
+        public Person Cashier { get { return cashier; } }
+
+        public bool Active
+        {
+            get { return this.active; }
+            set { this.active = value; }
+        }
+
         /// <summary>
         /// El metode intenta fer enqueue el shoppingCart.
         /// Si el CheckOutLine no esta actiu el shopingCart no es podra fer enqueue i el metode retorna false
