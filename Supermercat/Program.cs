@@ -47,8 +47,7 @@ namespace Supermercat
 
                         break;
                     case ConsoleKey.D4:
-                        if (DoCheckOut(super)) Console.WriteLine("BYE BYE. HOPE 2 SEE YOU AGAIN!");
-                        else Console.WriteLine("NO S'HA POGUT TANCAR CAP COMPRA");
+                        DoCheckOut(super);
 
                         break;
                     case ConsoleKey.D5:
@@ -188,7 +187,9 @@ namespace Supermercat
             Console.WriteLine("Entra el número de cua:");
             int numCua = Convert.ToInt32(Console.ReadLine());
             bool fet = super.Checkout(numCua);
-            Console.Clear();
+            if (fet) Console.WriteLine("BYE BYE. HOPE 2 SEE YOU AGAIN!");
+            else Console.WriteLine("NO S'HA POGUT TANCAR CAP COMPRA");
+            Console.WriteLine();
             MsgNextScreen("PREM UNA TECLA PER ANAR AL MENÚ PRINCIPAL");
             return fet;
         }
@@ -201,8 +202,11 @@ namespace Supermercat
         // OPCIO 5 : Obrir la següent cua disponible (si n'hi ha)
         public static bool DoOpenCua(SuperMarket super)
         {
-            bool fet = false;
-            super.OpenCheckOutLine(super.ActiveLines+1);
+            Console.Clear();
+            bool fet = super.OpenCheckOutLine(super.ActiveLines+1);
+            if (fet) Console.WriteLine("NOVA CUA OBERTA");
+            else Console.WriteLine("NO S'HA POGUT OBRIR CAP NOVA CUA");
+            Console.WriteLine();
             MsgNextScreen("PREM UNA TECLA PER ANAR AL MENÚ PRINCIPAL");
             return fet;
         }
@@ -306,11 +310,12 @@ namespace Supermercat
                 if (super.Lines[i].Empty) { cua = i; trobat = true; }
                 i--;
             }
-            if (trobat) 
+            if (trobat)
             {
-                Console.WriteLine($"DESACTIVANT:\n{super.GetCheckOutLine(cua+1)}");
-                super.RemoveQueque(super, cua); 
+                Console.WriteLine($"DESACTIVANT:\n{super.GetCheckOutLine(cua + 1)}");
+                super.RemoveQueque(super, cua);
             }
+            else { Console.WriteLine("NO S'HA POGUT TANCAR CAP CUA"); }
             MsgNextScreen("PREM UNA TECLA PER CONTINUAR");
         }
 

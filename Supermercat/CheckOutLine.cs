@@ -103,11 +103,11 @@ namespace Supermercat
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder($"Numero de caixa --> {this.number}");
-            sb.AppendLine($"Caixer/a al carrec --> {this.cashier.FullName}");
+            StringBuilder sb = new StringBuilder($"NUMERO DE CAIXA --> {this.number}");
+            sb.AppendLine($"CAIXER/A AL CÀREC --> {this.cashier.FullName}");
             if (this.queue.Count == 0)
             {
-                sb.AppendLine("Cua buida");
+                sb.AppendLine("CUA BUIDA");
             }
             else
             {

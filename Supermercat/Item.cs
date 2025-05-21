@@ -93,8 +93,8 @@ namespace Supermercat
         public override string ToString()
         {
             string sale;
-            if (this.OnSale) { sale = $"Y({this.Price})"; } else { sale = "N"; }
-            return $"CODE->{this.code} DESCRIPTION->{this.description}     CATEGORY->{this.GetCategory}    STOCK->{this.Stock} MIN_STOCK->{this.MinStock}  PRICE->{this.price}{currency} ONSALE->{sale}{currency}";
+            if (this.OnSale) { sale = $"Y({this.Price}){this.currency}"; } else { sale = "N"; }
+            return $"CODE->{this.code} DESCRIPTION->{this.description}     CATEGORY ->{this.GetCategory}    STOCK ->{this.Stock} MIN_STOCK->{this.MinStock}  PRICE->{this.price}{currency} ONSALE->{sale}";
         }
 
         /// <summary>

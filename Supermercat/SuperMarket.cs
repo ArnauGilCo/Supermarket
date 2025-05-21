@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 
 namespace Supermercat
@@ -191,7 +192,10 @@ namespace Supermercat
 
         public CheckOutLine[] Lines { get { return this.lines; } }
 
-        public int ActiveLines { get { return this.activeLines; } }
+        public int ActiveLines 
+        { get { return this.activeLines; }                         
+          set { this.activeLines = value; }
+        }
 
         /// <summary>
         /// Retorna la CheckOutLine en la posicio passada com a paràmetre. Si el número donat no és compatible  retorna null.
@@ -209,13 +213,16 @@ namespace Supermercat
         /// Obre la línia del número passat per paràmetre en el cas que no estigui oberta.
         /// </summary>
         /// <param name="line2Open">Línia a obrir</param>
-        public void OpenCheckOutLine(int line2Open)
+        public bool OpenCheckOutLine(int line2Open)
         {
+            bool fet = false;
             if (line2Open > activeLines && line2Open <= MAXLINES) 
             {
                 lines[line2Open-1] = new CheckOutLine(GetAvailableCashier(), line2Open);
                 activeLines++;
+                fet = true;
             }
+            return fet;
         }
 
         /// <summary>
@@ -245,17 +252,17 @@ namespace Supermercat
             bool completat = false;
             if (line >= 1 && line <= activeLines)
             {
-                lines[line - 1].CheckOut();
-                completat = true;
+                completat = lines[line - 1].CheckOut();
             }
             return completat;
         }
 
         public void RemoveQueque(SuperMarket super, int lineToRemove)
         {
-            Person caixer = super.lines[lineToRemove - 1].Cashier;
+            Person caixer = super.lines[lineToRemove].Cashier;
             super.lines[lineToRemove].Active = false;
             caixer.Active = false;
+            super.ActiveLines--;
         }
 
         public override string ToString()
